@@ -1,6 +1,6 @@
 import pyglet
 
-file = pyglet.resource.media('audio/wet.mp3')
+file = pyglet.resource.media('test.mp3')
 
 file.play()
 

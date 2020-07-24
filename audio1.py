@@ -5,12 +5,15 @@ import subprocess
 from gtts import gTTS 
 import os
 import pyttsx3
+from commands import Commander
 
 
 # def say(text):
 #     ptts < file.txt
 #     echo Hello there|ptts
 #     subprocess.call('say',text,shell=True)
+
+running = True
 
 def say_with_gtts(mytext, language="en"):
     myobj = gTTS(text=mytext, lang=language, slow=False)
@@ -49,7 +52,8 @@ def play_audio(filename):
     pa.terminate()
 
 
-r = sr.Recognizer()
+# r = sr.Recognizer()
+cmd = Commander()
 
 # play_audio("audio/siren.wav")
 
@@ -57,12 +61,13 @@ def initSpeech():
     print('Listening..')
 
     play_audio('audio/blurp_x.wav')
-
+    r = sr.Recognizer()
+    
     with sr.Microphone() as source:
         print("Say something..")
         audio = r.listen(source)
 
-    play_audio("audio/applause3.wav")
+    play_audio("audio/coin.wav")
 
     command = ""
 
@@ -75,6 +80,14 @@ def initSpeech():
     print(command)
     # say_with_gtts("You said: "+command)
     # play_audio('welcome.wav')
-    say_with_pyttsx("You said: "+command)
+    if command in ["quit", "exit", "good bye", "bye"]:
+        global running
+        running = False
+    
+    cmd.discover(command)
+    # say_with_pyttsx("You said: "+command)
 
-initSpeech()
+
+while running == True:
+    initSpeech()
+   
